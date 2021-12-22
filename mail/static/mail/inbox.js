@@ -69,7 +69,7 @@ function show_email(email, mailbox) {
 
   const recipients = document.createElement('div')
   recipients.id = "compose-recipients"
-  recipients.className = "col-md-4"
+  recipients.className = "col-md-3"
   if (mailbox === "inbox") {
     recipients.innerHTML = email.sender
   } else {
@@ -88,4 +88,6 @@ function show_email(email, mailbox) {
   timestamp.className = "col-md-4"
   timestamp.innerHTML = email.timestamp
   emailDiv.append(timestamp)
+
+  document.querySelector('#emails-view').append(emailDiv)
 }
