@@ -31,6 +31,14 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  // Load emails in relation to mailbox
+  fetch(`/emails/${mailbox}`)
+    .then(response => response.json())
+    .then(emails => {
+      console.log(emails)
+      emails.forEach(email => show_email(email, mailbox))
+    })
+
 }
 
 function sendEmail() {
@@ -50,6 +58,34 @@ function sendEmail() {
     .then(result => {
       console.log(result)
     })
-    load_mailbox('sent')
-    return false;
+  load_mailbox('sent')
+  return false;
+}
+
+function show_email(email, mailbox) {
+  const emailDiv = document.createElement('div')
+  emailDiv.id = "email-div"
+  emailDiv.className = "row"
+
+  const recipients = document.createElement('div')
+  recipients.id = "compose-recipients"
+  recipients.className = "col-md-4"
+  if (mailbox === "inbox") {
+    recipients.innerHTML = email.sender
+  } else {
+    recipients.innerHTML = email.recipients[0]
+  }
+  emailDiv.append(recipients)
+
+  const subject = document.createElement('div')
+  subject.id = "compose-subject"
+  subject.className = "col-md-6"
+  subject.innerHTML = email.subject
+  emailDiv.append(subject)
+
+  const timestamp = document.createElement('div')
+  timestamp.id = "compose-timestamp"
+  timestamp.className = "col-md-4"
+  timestamp.innerHTML = email.timestamp
+  emailDiv.append(timestamp)
 }
