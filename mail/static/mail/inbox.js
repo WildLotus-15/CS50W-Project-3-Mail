@@ -28,6 +28,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#view-email').style.display = 'none';
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
@@ -58,7 +59,7 @@ function sendEmail() {
     .then(result => {
       console.log(result)
     })
-  load_mailbox('sent')
+  load_mailbox('sent');
   return false;
 }
 
@@ -103,5 +104,26 @@ function show_email(email, mailbox) {
   }
   emailCard.append(emailDiv)
 
-  document.querySelector('#emails-view').append(emailCard)
+  // appending created filled wrapper to a page 
+  document.querySelector('#emails-view').append(emailCard);
+
+  recipients.addEventListener('click', () => view_email(email.id))
+  subject.addEventListener('click', () => view_email(email.id))
+  timestamp.addEventListener('click', () => view_email(email.id))
+}
+
+function view_email(id) {
+  document.querySelector('#emails-view').style.display = 'none'
+  document.querySelector('#compose-view').style.display = 'none'
+  document.querySelector('#view-email').style.display = 'block'
+
+  // getting information
+  fetch(`/emails/${id}`)
+  .then(response => response.json())
+  .then(email => {
+    document.querySelector('#view-email-recipient').innerHTML = email.recipients
+    document.querySelector('#view-email-sender').innerHTML = email.sender
+    document.querySelector('#view-email-subject').innerHTML = email.subject
+    document.querySelector('#view-email-timestamp').innerHTML = email.timestamp
+  })
 }

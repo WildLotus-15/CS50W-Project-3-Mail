@@ -11,5 +11,8 @@ textarea {
 }
 
 #email-card {
-    margin-bottom: 20px
+    border: 1px black solid;
+}
+#email-card:hover {
+    cursor: pointer
 }
