@@ -1,3 +1,15 @@
 textarea {
     min-height: 400px;
 }
+
+.seen {
+    background-color: gray;
+}
+
+.unseen {
+    background-color: white;
+}
+
+#email-card {
+    margin-bottom: 20px
+}

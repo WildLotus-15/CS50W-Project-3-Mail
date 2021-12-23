@@ -63,31 +63,45 @@ function sendEmail() {
 }
 
 function show_email(email, mailbox) {
+  // creating wrapper
   const emailDiv = document.createElement('div')
   emailDiv.id = "email-div"
   emailDiv.className = "row"
 
+  // getting recipients
   const recipients = document.createElement('div')
-  recipients.id = "compose-recipients"
-  recipients.className = "col-md-3"
+  recipients.id = "email-recipient"
+  recipients.className = "col-lg-2 col-md-3 col-sm-12"
   if (mailbox === "inbox") {
-    recipients.innerHTML = email.sender
+    recipients.innerHTML = email.sender // showing sender on inbox page
   } else {
-    recipients.innerHTML = email.recipients[0]
+    recipients.innerHTML = email.recipients[0] // showing recipient on other pages
   }
   emailDiv.append(recipients)
 
+  // getting subject
   const subject = document.createElement('div')
-  subject.id = "compose-subject"
-  subject.className = "col-md-6"
+  subject.id = "email-subject"
+  subject.className = "col-lg-6 col-md-5 col-sm-12"
   subject.innerHTML = email.subject
   emailDiv.append(subject)
 
+  // getting timestamp
   const timestamp = document.createElement('div')
-  timestamp.id = "compose-timestamp"
-  timestamp.className = "col-md-4"
+  timestamp.id = "email-timestamp"
+  timestamp.className = "col-lg-3 col-md-3 col-sm-12"
   timestamp.innerHTML = email.timestamp
   emailDiv.append(timestamp)
 
-  document.querySelector('#emails-view').append(emailDiv)
+  // depending on result changing background color
+  const emailCard = document.createElement('div')
+  emailCard.id = "email-card"
+  if (email.read) {
+    emailCard.className = "seen"
+  } else {
+    emailCard.className = "unseen"
+  }
+  emailCard.append(emailDiv)
+
+  document.querySelector('#emails-view').append(emailCard)
 }
