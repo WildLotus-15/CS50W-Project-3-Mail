@@ -94,6 +94,14 @@ function show_email(email, mailbox) {
   timestamp.innerHTML = email.timestamp
   emailDiv.append(timestamp)
 
+  // adding archive button 
+  if (mailbox !== "sent") {
+    const button = document.createElement('button')
+    button.innerHTML = "archive"
+    emailDiv.append(button)
+    button.addEventListener('click', () => email_archive(email.id, email.archived))
+  }
+
   // depending on result changing background color
   const emailCard = document.createElement('div')
   emailCard.id = "email-card"
@@ -107,7 +115,9 @@ function show_email(email, mailbox) {
   // appending created filled wrapper to a page 
   document.querySelector('#emails-view').append(emailCard);
 
-  emailCard.addEventListener('click', () => view_email(email.id))
+  recipients.addEventListener('click', () => view_email(email.id))
+  subject.addEventListener('click', () => view_email(email.id))
+  timestamp.addEventListener('click', () => view_email(email.id))
 }
 
 function view_email(id) {
@@ -119,20 +129,33 @@ function view_email(id) {
   fetch(`/emails/${id}`)
     .then(response => response.json())
     .then(email => {
+      console.log(email)
       read_email(id)
       document.querySelector('#view-email-recipient').innerHTML = email.recipients
       document.querySelector('#view-email-sender').innerHTML = email.sender
       document.querySelector('#view-email-subject').innerHTML = email.subject
       document.querySelector('#view-email-timestamp').innerHTML = email.timestamp
     })
+}
 
-
-  function read_email(id) {
-    fetch(`/emails/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        read: true
-      })
+function read_email(id) {
+  fetch(`/emails/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      read: true
     })
-  }
+  })
+}
+
+function email_archive(id, initialValue) {
+  const newValue = !initialValue
+  console.log(`updating email archive = ${newValue}`)
+  fetch(`/emails/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      archived: newValue
+    })
+  })
+  load_mailbox('inbox')
+  window.location.reload()
 }
