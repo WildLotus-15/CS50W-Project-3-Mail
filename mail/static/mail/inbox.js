@@ -32,6 +32,7 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
   // Load emails in relation to mailbox
   fetch(`/emails/${mailbox}`)
     .then(response => response.json())
@@ -39,7 +40,6 @@ function load_mailbox(mailbox) {
       console.log(emails)
       emails.forEach(email => show_email(email, mailbox))
     })
-
 }
 
 function sendEmail() {
@@ -107,23 +107,32 @@ function show_email(email, mailbox) {
   // appending created filled wrapper to a page 
   document.querySelector('#emails-view').append(emailCard);
 
-  recipients.addEventListener('click', () => view_email(email.id))
-  subject.addEventListener('click', () => view_email(email.id))
-  timestamp.addEventListener('click', () => view_email(email.id))
+  emailCard.addEventListener('click', () => view_email(email.id))
 }
 
 function view_email(id) {
-  document.querySelector('#emails-view').style.display = 'none'
-  document.querySelector('#compose-view').style.display = 'none'
-  document.querySelector('#view-email').style.display = 'block'
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#view-email').style.display = 'block';
 
   // getting information
   fetch(`/emails/${id}`)
-  .then(response => response.json())
-  .then(email => {
-    document.querySelector('#view-email-recipient').innerHTML = email.recipients
-    document.querySelector('#view-email-sender').innerHTML = email.sender
-    document.querySelector('#view-email-subject').innerHTML = email.subject
-    document.querySelector('#view-email-timestamp').innerHTML = email.timestamp
-  })
+    .then(response => response.json())
+    .then(email => {
+      read_email(id)
+      document.querySelector('#view-email-recipient').innerHTML = email.recipients
+      document.querySelector('#view-email-sender').innerHTML = email.sender
+      document.querySelector('#view-email-subject').innerHTML = email.subject
+      document.querySelector('#view-email-timestamp').innerHTML = email.timestamp
+    })
+
+
+  function read_email(id) {
+    fetch(`/emails/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        read: true
+      })
+    })
+  }
 }
