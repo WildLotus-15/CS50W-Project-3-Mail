@@ -115,6 +115,7 @@ function show_email(email, mailbox) {
   // appending created filled wrapper to a page 
   document.querySelector('#emails-view').append(emailCard);
 
+  // when clicking on properties view_email function shows
   recipients.addEventListener('click', () => view_email(email.id))
   subject.addEventListener('click', () => view_email(email.id))
   timestamp.addEventListener('click', () => view_email(email.id))
@@ -135,9 +136,12 @@ function view_email(id) {
       document.querySelector('#view-email-sender').innerHTML = email.sender
       document.querySelector('#view-email-subject').innerHTML = email.subject
       document.querySelector('#view-email-timestamp').innerHTML = email.timestamp
+
+      document.getElementById('reply-button').addEventListener('click', () => reply_email(email))
     })
 }
 
+// changing email read property with put method
 function read_email(id) {
   fetch(`/emails/${id}`, {
     method: 'PUT',
@@ -157,5 +161,15 @@ function email_archive(id, initialValue) {
     })
   })
   load_mailbox('inbox')
-  window.location.reload()
+  window.location.reload() // automatically realoading window / F5
+}
+
+function reply_email(email) {
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#view-email').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'block';
+
+  document.querySelector('#compose-recipients').value = email.sender
+  document.querySelector('#compose-subject').value = `Re: ${email.subject}`
+  document.querySelector('#compose-body').value = `On ${email.timestamp} ${email.sender} wrote: "${email.subject}"`
 }
