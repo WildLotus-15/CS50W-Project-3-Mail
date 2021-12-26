@@ -3,7 +3,7 @@ textarea {
 }
 
 .seen {
-    background-color: gray;
+    background-color: rgb(196, 190, 190);
 }
 
 .unseen {
@@ -12,7 +12,30 @@ textarea {
 
 #email-card {
     border: 1px black solid;
+    font-size: 17px;
+    padding: 3px;
 }
+
 #email-card:hover {
     cursor: pointer
+}
+
+#archive-icon {
+    width: 20px;
+}
+
+#reply-button {
+    margin: auto
+}
+
+#email-subject {
+    left: 2%
+}
+
+#email-recipient {
+    font-weight: bold;
+}
+
+#view-email-body {
+    font-size: 20px
 }

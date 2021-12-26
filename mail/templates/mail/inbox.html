@@ -1,7 +1,4 @@
-{% extends "mail/layout.html" %}
-{% load static %}
-
-{% block body %}
+{% extends "mail/layout.html" %} {% load static %} {% block body %}
 <h2>{{ request.user.email }}</h2>
 
 <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
@@ -16,24 +13,24 @@
 
 <div id="view-email">
     <div class="row">
-        <div class="col-lg-2">To:</div>
+        <div class="col-lg-1 font-weight-bold">From:</div>
         <div id="view-email-recipient" class="col-sm"></div>
     </div>
     <div class="row">
-        <div class="col-lg-2">From:</div>
+        <div class="col-lg-1 font-weight-bold">To:</div>
         <div id="view-email-sender" class="col-sm"></div>
     </div>
     <div class="row">
-        <div class="col-lg-2">Subject:</div>
+        <div class="col-lg-1 font-weight-bold">Subject:</div>
         <div id="view-email-subject" class="col-sm"></div>
     </div>
     <div class="row">
-        <div class="col-lg-2">Time:</div>
+        <div class="col-lg-1 font-weight-bold">Time:</div>
         <div id="view-email-timestamp" class="col-sm"></div>
     </div>
-    <div class="row">
-        <button id="reply-button">Reply</button>
-    </div>
+    <button id="reply-button" type="button" class="btn btn-outline-primary">Reply</button>
+    <hr>
+    <div id="view-email-body" class="col-sm"></div>
 </div>
 
 <div id="compose-view">
@@ -52,8 +49,6 @@
         <input type="submit" class="btn btn-primary" />
     </form>
 </div>
-{% endblock %}
-
-{% block script %}
+{% endblock %} {% block script %}
 <script src="{% static 'mail/inbox.js' %}"></script>
 {% endblock %}
