@@ -15,6 +15,7 @@ function compose_email() {
 
     // Show compose view and hide other views
     document.querySelector('#emails-view').style.display = 'none';
+    document.querySelector('#details-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'block';
 
     // Clear out composition fields
@@ -28,7 +29,7 @@ function load_mailbox(mailbox) {
     // Show the mailbox and hide other views
     document.querySelector('#emails-view').style.display = 'block';
     document.querySelector('#compose-view').style.display = 'none';
-    document.querySelector('#view-email').style.display = 'none';
+    document.querySelector('#details-view').style.display = 'none';
 
     // Show the mailbox name
     document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
@@ -126,7 +127,7 @@ function show_email(email, mailbox) {
 function view_email(id) {
     document.querySelector('#emails-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'none';
-    document.querySelector('#view-email').style.display = 'block';
+    document.querySelector('#details-view').style.display = 'block';
 
     // getting information
     fetch(`/emails/${id}`)
@@ -170,7 +171,7 @@ function email_archive(id, initialValue) {
 
 function reply_email(email) {
     document.querySelector('#emails-view').style.display = 'none';
-    document.querySelector('#view-email').style.display = 'none';
+    document.querySelector('#details-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'block';
 
     document.querySelector('#compose-recipients').value = email.sender
