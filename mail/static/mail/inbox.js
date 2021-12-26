@@ -61,6 +61,7 @@ function sendEmail() {
             console.log(result)
         })
     load_mailbox('sent');
+    localStorage.clear()
     return false;
 }
 
@@ -175,6 +176,11 @@ function reply_email(email) {
     document.querySelector('#compose-view').style.display = 'block';
 
     document.querySelector('#compose-recipients').value = email.sender
-    document.querySelector('#compose-subject').value = `Re: ${email.subject}`
-    document.querySelector('#compose-body').value = `On ${email.timestamp} ${email.sender} wrote: "${email.subject}"`
+    // if "Re: "" doesn't exists create it
+    if (email.subject.indexOf("Re: ") === -1) {
+        email.subject = `Re: ${email.subject}`
+    }
+    // if "Re: " exists we will not add it again
+    document.querySelector('#compose-subject').value = email.subject
+    document.querySelector('#compose-body').value = `On ${email.timestamp} ${email.sender} wrote: "${email.body}"`
 }
